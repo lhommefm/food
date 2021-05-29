@@ -1,19 +1,22 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from datetime import datetime, date, timedelta
-import time
 from random import randint
+import time
+import configparser
+
+# read config file
+config = configparser.ConfigParser()
+config.read('config.ini')
+early = config['general']['early']
+late = config['general']['late']
+restaurants = config['general']['resy_restaurants'].split(',')
 
 # successful availabilities placeholder
 success = []
 
 # set up the Selenium browser
 browser = webdriver.Chrome('./chromedriver')
-
-# parameters to be defined in a config
-early = '6:00PM'
-late = '8:00PM'
-resy_restaurants = ['izakaya-rintaro']
 
 # date calculation for full range of dates
 today = date.today()
@@ -22,9 +25,6 @@ dates = [friday]
 additional_dates = [1,7,8,14,15,21,22]
 for day in additional_dates:
     dates.append(friday+timedelta(days=day))
-
-# url params
-restaurants = ['izakaya-rintaro', 'mister-jius']
 
 for restaurant in restaurants:
 
